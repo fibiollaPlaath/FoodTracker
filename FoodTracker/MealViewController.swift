@@ -20,6 +20,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    
     /*
      This value is either passed by 'MealTableViewController' in
      'prepare(for: sender: )'
@@ -99,8 +100,30 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         
-        //Method dismiss modal scene & animates transition back to previous scene
-        dismiss(animated: true, completion: nil)
+        //Depending on style of presentation (modal/push), view controller needs to be dismissed in 2 ways
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        
+        if isPresentingInAddMealMode {
+            
+            //Method dismiss modal scene & animates transition back to previous scene
+            dismiss(animated: true, completion: nil)
+            
+        }
+        
+        /* Called when user is editing an existing meal.
+           Unwraps view controller's navigationController property.
+           popViewController() pops current view controller off navigation stack & animates the transition.
+           Dismisses meal detail scene & returns user to meal list
+         */
+ 
+        else if let owningNavigationController = navigationController {
+            
+            owningNavigationController.popViewController(animated: true)
+            
+        } else {
+            
+            fatalError("The MealViewController is not inside a navigation controller.")
+        }
     }
     
     //Allows configuration of view controller before its presented
