@@ -4,18 +4,15 @@
 //
 //  Created by Fibiolla Plaath on 01/04/2021.
 //
-//
-//
-// you should see this
 
-//UIKit also gives you access to Foundation
-import UIKit
+import UIKit //Also gives access to Foundation framework
 import os.log //Unified logging system
 
 class Meal: NSObject, NSCoding {
     
     //MARK: Properties
     
+    /// Defines basic properties for the data needed to store.
     var name: String
     var photo: UIImage?
     var rating: Int

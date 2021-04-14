@@ -4,16 +4,19 @@
 //
 //  Created by Fibiolla Plaath on 31/03/2021.
 //
-// Custom view subclass of UIView
 
 import UIKit
 
+///@IBDesignable Provides functionality for live rendering of changes of custom views directly in a storyboard.
 @IBDesignable class RatingControl: UIStackView {
     
     //MARK: Properties
     
+    /// Contains a list of buttons.
     private var ratingButtons = [UIButton] ()
     
+    
+    /// Controls the control's rating. Rating property
     var rating = 0 {
         
         //PROPERTY OBSERVER: Observes and responds to changes
@@ -24,7 +27,9 @@ import UIKit
         }
     }
     
-    //Define size of buttons & # of buttons in my control
+   
+    ///@IBInspectable allows us to create attributes in code that we assign in a storyboard.
+    //Define size of buttons & # of buttons in my control.
     @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0) {
         
         didSet {
@@ -46,13 +51,16 @@ import UIKit
     
     //MARK: Initialization
     
+    /// Calls superclass's initializer
+    /// - Parameter frame: This method uses frame rectangle to set center and bounds properties accordingly.
     override init(frame: CGRect) {
         
-        //Calls superclass's initializer
         super.init(frame: frame)
         setupButtons()
     }
     
+    /// Calls superclass's initializer
+    /// - Parameter coder: returns object initialized from data in given unarchiver
         required init(coder: NSCoder) {
             
             super.init(coder: coder)
@@ -85,6 +93,7 @@ import UIKit
     
     //MARK: Private Methods
     
+    /// Setting up of rating buttons: Loading button images, creating 5 buttons, button actions, updating button states
     private func setupButtons() {
         
         //Clear out existing buttons
@@ -96,7 +105,7 @@ import UIKit
         
         ratingButtons.removeAll()
         
-        //Load Button Images
+        //Load star images from assets catalog.
         let bundle = Bundle(for: type(of: self))
         let filledStar = UIImage(named: "filledStar", in: bundle, compatibleWith: self.traitCollection)
         let emptyStar = UIImage(named: "emptyStar", in: bundle, compatibleWith: self.traitCollection)
@@ -108,9 +117,9 @@ import UIKit
             //Create button
             let button = UIButton()
             
-            //Set button images
-            button.setImage(emptyStar, for: .normal)
-            button.setImage(filledStar, for: .selected)
+            //Set button images. Modifying button appearances based on state
+            button.setImage(emptyStar, for: .normal) //Empty star for normal state. Default
+            button.setImage(filledStar, for: .selected) //Selected state
             button.setImage(highlightedStar, for: .highlighted)
             button.setImage(highlightedStar, for: [.highlighted, .selected])
             
@@ -138,7 +147,7 @@ import UIKit
         updateButtonSelectionStates()
     }
     
-    //Update selection states of buttons
+    //Update button's appearance
     private func updateButtonSelectionStates() {
         
         for (index, button) in ratingButtons.enumerated() {

@@ -1,5 +1,5 @@
 //
-//  SceneDelegate.swift
+//  SceneDelegate.swift: Responsible for scene life cycle events
 //  FoodTracker
 //
 //  Created by Fibiolla Plaath on 26/03/2021.

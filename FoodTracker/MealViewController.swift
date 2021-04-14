@@ -4,22 +4,19 @@
 //
 //  Created by Fibiolla Plaath on 26/03/2021.
 //
-//"MARK" helps organise your code and allows easy navigation
 
 import UIKit
-import os.log //Imports unified logging system like print()
-
-//Logging system allows sending of messages to console.
+import os.log //Imports unified logging system (Allows sending of messages to console)
 
 class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     //MARK: Properties
-    //References in the storyboard
+    
+    /// Outlets let you refer to interface elements in code. References in storyboard.
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    
     
     /*
      This value is either passed by 'MealTableViewController' in
@@ -28,6 +25,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
      */
     var meal: Meal?
     
+    /// Called when UI is created & loaded on the screen.
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -50,12 +48,14 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     //MARK: UITextFieldDelegate
     
-    //Method resigns the text field's 1st responder status.
+    /// Text field calls this method whenever user taps return button and then dismisses keyboard
+    /// - Parameter textField: Text field whose return button was pressed
+    /// - Returns: boolean value. Whether system should process the press of return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //Hide keyboard
-        textField.resignFirstResponder()
         
-        return true //Returns boolean value - whether system should process the press of return key.
+        textField.resignFirstResponder() //Hide keyboard
+        
+        return true
     }
     
     //Gets called when editing session begins. Disables Save button while user is editing text field.
@@ -65,7 +65,8 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         saveButton.isEnabled = false
     }
     
-    //Method gives you a change to read the info entered into text field & do something with it.
+    /// Gives a chance to read info entered into text field & change value of label. Gets called after textFieldShouldReturn()
+    /// - Parameter textField: Text field for which editing ended.
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         updateSaveButtonState() //Checks if text field has text in it, which enables Save button if it does.
@@ -74,14 +75,18 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     //MARK: UIImagePickerControllerDelegate
     
-    //Dismiss the UIImagePickerController
+    /// Tells delegate that user cancelled pick photo operation
+    /// - Parameter picker: Controller object managing image picker interface
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
         //Dismiss the picker if the user cancelled
         dismiss(animated: true, completion: nil)
     }
     
-    //Gets called when user selects a photo
+    /// Called when user selects photo & dismiss picker view
+    /// - Parameters:
+    ///   - picker: Controller object managing image picker interface
+    ///   - info: Dictionary containing original image & edited image. Contains relevant editing info
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){
         
         //Info dictionary may contain multiple representations of the image. You want to use the original
@@ -92,6 +97,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         
         //Set photoImage to display the selected image
         photoImageView.image = selectedImage
+        
         //Dismiss the picker
         dismiss(animated: true, completion: nil)
     }
@@ -155,6 +161,9 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     //MARK: Actions
     
+    
+    /// Gesture recognizer connected
+    /// - Parameter sender: Interprets single or multiple taps
     @IBAction func selectImageFromPhotolibrary(_ sender: UITapGestureRecognizer) {
         
         //Hide keyboard
@@ -180,4 +189,5 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         saveButton.isEnabled = !text.isEmpty
     }
 }
+
 
